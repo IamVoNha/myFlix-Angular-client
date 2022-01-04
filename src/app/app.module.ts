@@ -25,12 +25,14 @@ import { UpdateUserProfileComponent } from './update-user-profile/update-user-pr
 import { MovieDetailsComponent } from './movie-details/movie-details.component';
 import { GenreDetailsComponent } from './genre-details/genre-details.component';
 import { DirectorDetailsComponent } from './director-details/director-details.component';
+import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
 
 
 
  const appRoutes: Routes = [
    { path: 'welcome', component: WelcomePageComponent },
    { path: 'movies', component: MovieCardComponent },
+   { path: 'profile', component: UserProfileComponent},
    { path: '', redirectTo: 'welcome', pathMatch: 'prefix' },
  ];
 
@@ -46,6 +48,7 @@ import { DirectorDetailsComponent } from './director-details/director-details.co
     MovieDetailsComponent,
     GenreDetailsComponent,
     DirectorDetailsComponent,
+    NavigationBarComponent,
   ],
   imports: [
     BrowserModule,

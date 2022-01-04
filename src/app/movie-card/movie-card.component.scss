@@ -1,3 +1,19 @@
+#mat-dialog-0 {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.movies-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 60px 30px;
+  @media screen and (max-width: 500px) {
+    padding: 0;
+  }
+}
+
 .mat-card {
   display: flex;
   flex-direction: column;
@@ -5,10 +21,22 @@
   align-items: center;
   position: relative;
   padding: 40px;
-  //margin: 10px;
   max-width: 300px;
   width: 300px;
   img {
-    max-width: 350px;
+    max-width: 250px;
+  }
+  .mat-card-header {
+    text-align: center;
+  }
+  .mat-card-actions {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    mat-icon {
+      position: absolute;
+      top: 25px;
+      right: 25px;
+    }
   }
 }

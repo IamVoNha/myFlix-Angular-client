@@ -117,7 +117,7 @@ export class GetOneMovieService {
     const token = localStorage.getItem('token');
     return this.http.get(apiUrl + 'movies/:Name', {headers: new HttpHeaders(
       {
-        Authorization: 'Bearer' + token,
+        Authorization: 'Bearer ' + token,
       })
     }).pipe(
       map(this.extractResponseData),
@@ -152,7 +152,7 @@ export class GetDirectorService {
     const token = localStorage.getItem('token');
     return this.http.get(apiUrl + 'movies/directors/:Name', {headers: new HttpHeaders (
       {
-        Authorization: 'Bearer' + token,
+        Authorization: 'Bearer ' + token,
       }
     )}).pipe(
       map(this.extractResponseData),
@@ -187,7 +187,7 @@ export class GetGenreService {
     const token = localStorage.getItem('token');
     return this.http.get(apiUrl + 'movies/genre/:Name', {headers: new HttpHeaders (
       {
-        Authorization: 'Bearer' + token,
+        Authorization: 'Bearer ' + token,
       }
     )}).pipe(
       map(this.extractResponseData),
@@ -211,29 +211,27 @@ export class GetGenreService {
   }
 }
 
-// get user info
+// get users
 @Injectable({
   providedIn: 'root',
 })
-export class GetUserService {
-  userLogin(userData: { Username: string; Password: string; }) {
-    throw new Error('Method not implemented.');
-  }
+export class GetUsersService {
   constructor(private http: HttpClient) {}
 
   getUser(): Observable <any> {
     const token = localStorage.getItem('token');
     const user = localStorage.getItem('user');
 
-    return this.http.get(apiUrl + 'users/:Username', {headers: new HttpHeaders (
+    return this.http.get(apiUrl + `users/${user}`, {headers: new HttpHeaders (
       {
-        Authorization: 'Bearer' + token,
+        Authorization: 'Bearer ' + token,
       }
     )}).pipe(
       map(this.extractResponseData),
       catchError(this.handleError)
     )
   }
+
   private extractResponseData(res: Response | Object): any {
     const body = res;
     return body || { };
@@ -250,6 +248,7 @@ export class GetUserService {
       'Something bad happened; please try again later.');
   }
 }
+
 
 //Get favorite movies for a user
 @Injectable({
@@ -264,7 +263,7 @@ export class GetFavoritesService {
 
     return this.http.post(apiUrl + 'users/:Username/:movies/:MovieID', {headers: new HttpHeaders (
       {
-        Authorization: 'Bearer' + token,
+        Authorization: 'Bearer ' + token,
       }
     )}).pipe(
       map(this.extractResponseData),
@@ -288,57 +287,61 @@ export class GetFavoritesService {
   }
 }
 
-//Add a movie to favourite Movies
 @Injectable({
   providedIn: 'root',
 })
 export class AddFavoritesService {
-  constructor(private http: HttpClient) {}
+  // Inject the HttpClient module to the constructor params
+  // This will provide HttpClient to the entire class, making it available via this.http
+  constructor(private http: HttpClient) { }
 
-  addFavorites(id:string): Observable <any> {
+  // Making the API call to add one favorite movie to the user
+  addFavorites(id: string): Observable<any> {
     const token = localStorage.getItem('token');
-    const user = localStorage.getItem('user');
-
-    return this.http.post(apiUrl + 'users/:Username/:movies/:MovieID', id, {headers: new HttpHeaders (
+    const username = localStorage.getItem('user');
+    return this.http.post(`${apiUrl}users/${username}/Movies/${id}`, id, {headers: new HttpHeaders(
       {
-        Authorization: 'Bearer' + token,
-      }
-    )}).pipe(
+        Authorization: 'Bearer ' + token
+      })
+    }).pipe(
       map(this.extractResponseData),
       catchError(this.handleError)
-    )
+    );
   }
+
+  // Non-typed response extraction
   private extractResponseData(res: Response | Object): any {
     const body = res;
     return body || { };
   }
-  private handleError(error: HttpErrorResponse):any {
+
+  private handleError(error: HttpErrorResponse): any {
     if (error.error instanceof ErrorEvent) {
       console.error('Some error occurred:', error.error.message);
     } else {
       console.error(
         `Error Status code ${error.status}, ` +
-        `Error body is: ${error.error}`);
+        `Error body is: ${error.error}`
+      );
     }
-    return throwError(
-      'Something bad happened; please try again later.');
+    return throwError('Something bad happened; please try again later.');
   }
 }
 
-//Edit user
+// update user
 @Injectable({
   providedIn: 'root',
 })
-export class EditUserService {
+export class UpdateUserService {
   constructor(private http: HttpClient) {}
 
   updateUser(userDetails:any): Observable <any> {
     const token = localStorage.getItem('token');
     const user = localStorage.getItem('user');
 
-    return this.http.put(apiUrl + 'users/:Username', userDetails, {headers: new HttpHeaders (
+    return this.http.put(apiUrl + `users/${user}`, userDetails, {headers: new HttpHeaders (
       {
-        Authorization: 'Bearer' + token,
+        Authorization: 'Bearer ' + token,
       }
     )}).pipe(
       map(this.extractResponseData),
@@ -371,11 +374,11 @@ export class DeleteUserService {
 
   deleteUser(): Observable <any> {
     const token = localStorage.getItem('token');
-    const user = localStorage.getItem('user');
+    const username = localStorage.getItem('user');
 
-    return this.http.delete(apiUrl + 'users/:Username', {headers: new HttpHeaders (
+    return this.http.delete(`${apiUrl}users/${username}`, {headers: new HttpHeaders (
       {
-        Authorization: 'Bearer' + token,
+        Authorization: 'Bearer ' + token,
       }
     )}).pipe(
       map(this.extractResponseData),
@@ -406,13 +409,13 @@ export class DeleteUserService {
 export class RemoveFavoritesService {
   constructor(private http: HttpClient) {}
 
-  removeFavorites(): Observable <any> {
+  removeFavorites(id: string): Observable <any> {
     const token = localStorage.getItem('token');
-    const user = localStorage.getItem('user');
+    const username = localStorage.getItem('user');
 
-    return this.http.post(apiUrl + 'users/:Username/:movies/:MovieID', {headers: new HttpHeaders (
+    return this.http.delete(`${apiUrl}users/${username}/Movies/${id}`, {headers: new HttpHeaders (
       {
-        Authorization: 'Bearer' + token,
+        Authorization: 'Bearer ' + token,
       }
     )}).pipe(
       map(this.extractResponseData),
