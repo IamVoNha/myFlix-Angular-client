@@ -44,7 +44,11 @@ private handleError(error: HttpErrorResponse): any {
   }
 }
 
-//User Login
+/** User Login
+     * @method POST
+     * @param userData  
+     * @returns status success/error message
+    */
 @Injectable ({
   providedIn: 'root',
 })
@@ -70,7 +74,11 @@ export class UserLoginService {
   }
 }
 
-//Get All Movies
+/** Get All Movies
+      * @method GET
+      * @param endpoint to get all movies: "/movies" 
+      * @returns an array of movies
+     */
 @Injectable({
   providedIn: 'root',
 })
@@ -106,7 +114,12 @@ export class GetAllMoviesService {
   }
 }
 
-//Get one movie
+/** Get one movie
+      * @method GET
+      * @param endpoint to get one movies: "/movies/:Name" 
+      * @param - director name is required 
+      * @returns a single movie
+     */
 @Injectable({
   providedIn: 'root',
 })
@@ -141,7 +154,12 @@ export class GetOneMovieService {
   }
 }
 
-//Get Director
+/** Get Director
+     * @method GET
+     * @param endpoint to get director by name: "/movies/directors/:Name" 
+     * @param - director name is required 
+     * @returns a single director
+    */
 @Injectable({
   providedIn: 'root',
 })
@@ -176,7 +194,12 @@ export class GetDirectorService {
   }
 }
 
-//Get Genre
+/** Get Genre
+     * @method GET
+     * @param endpoint to get genre by name: "/movies/genres/:Name" 
+     * @param - genre name is required 
+     * @returns a single genre
+    */
 @Injectable({
   providedIn: 'root',
 })
@@ -211,7 +234,12 @@ export class GetGenreService {
   }
 }
 
-// get users
+/** get users
+      * @method GET
+      * @param endpoint to get User by name: "/users/:User" 
+      * @param - username is required 
+      * @returns a single user
+     */
 @Injectable({
   providedIn: 'root',
 })
@@ -249,8 +277,12 @@ export class GetUsersService {
   }
 }
 
-
-//Get favorite movies for a user
+/** Get a user's list of favorite movies
+     * @method GET
+     * @param endpoint to get List of favorite movies by name: "users/:Username/:movies/:MovieID"
+     * @param username is required 
+     * @returns an array of favorite movies
+    */
 @Injectable({
   providedIn: 'root',
 })
@@ -261,7 +293,7 @@ export class GetFavoritesService {
     const token = localStorage.getItem('token');
     const user = localStorage.getItem('user');
 
-    return this.http.post(apiUrl + 'users/:Username/:movies/:MovieID', {headers: new HttpHeaders (
+    return this.http.get(apiUrl + 'users/:Username/:movies/:MovieID', {headers: new HttpHeaders (
       {
         Authorization: 'Bearer ' + token,
       }
@@ -287,6 +319,13 @@ export class GetFavoritesService {
   }
 }
 
+/** Add a movie to a user's list of favorites
+     * @method POST
+     * @param endpoint to post a movie to list of fav by name: "/users/:Username/Movies/:id"
+     * @param username is required 
+     * @param id is required
+     * @returns a success/error message
+    */
 @Injectable({
   providedIn: 'root',
 })
@@ -328,7 +367,12 @@ export class AddFavoritesService {
   }
 }
 
-// update user
+/** update user
+     * @method PUT
+     * @param endpoint to update user's account by name: "/users/:User" 
+     * @param userData is required (username, password, email, birthday)
+     * @returns a success/error message
+    */
 @Injectable({
   providedIn: 'root',
 })
@@ -365,7 +409,12 @@ export class UpdateUserService {
   }
 }
 
-//Delete user
+/** Delete user
+     * @method DELETE
+     * @param endpoint to delete user's account by name: "/users/:Username"
+     * @param username is required  
+     * @returns a success/error message
+    */
 @Injectable({
   providedIn: 'root',
 })
@@ -402,7 +451,13 @@ export class DeleteUserService {
   }
 }
 
-//Delete a movie from favorite
+/** Delete a movie from favorite
+     * @method DELETE
+     * @param endpoint to remove favorite movie from user's account by name: "/users/:Username/Movies/:id"
+     * @param username is required 
+     * @param id is required
+     * @returns a success/error message
+    */
 @Injectable({
   providedIn: 'root',
 })
